@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SweatSpace</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SweatSpaceh1>
+            <p>Personalized workouts to help you achieve your fitness goals</p>
+        </header>
+
+        <section id="goal-selection" class="section">
+            <h2>Select Your Fitness Goal</h2>
+            <div class="goals-container">
+                <div class="goal-card" data-goal="weight-loss">
+                    <i class="fas fa-weight"></i>
+                    <h3>Weight Loss</h3>
+                    <p>Cardio-focused routines to burn calories</p>
+                </div>
+                <div class="goal-card" data-goal="muscle-gain">
+                    <i class="fas fa-dumbbell"></i>
+                    <h3>Muscle Gain</h3>
+                    <p>Strength training to build muscle mass</p>
+                </div>
+                <div class="goal-card" data-goal="flexibility">
+                    <i class="fas fa-child"></i>
+                    <h3>Flexibility</h3>
+                    <p>Stretching routines to improve mobility</p>
+                </div>
+            </div>
+
+            <div class="level-selection">
+                <h3>Select Your Level</h3>
+                <div class="level-buttons">
+                    <button class="level-btn" data-level="beginner">Beginner</button>
+                    <button class="level-btn" data-level="intermediate">Intermediate</button>
+                    <button class="level-btn" data-level="advanced">Advanced</button>
+                </div>
+            </div>
+
+            <button id="generate-btn" class="primary-btn">Generate My Routine</button>
+        </section>
+
+        <section id="routine-display" class="section hidden">
+            <div class="routine-header">
+                <h2 id="routine-title">Your Custom Routine</h2>
+                <button id="back-btn" class="secondary-btn"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+
+            <div class="workout-container">
+                <div class="workout-info">
+                    <h3 id="current-day">Day 1</h3>
+                    <div class="workout-progress">
+                        <div class="progress-text">Progress: <span id="progress-percent">0%</span></div>
+                        <div class="progress-bar-container">
+                            <div id="progress-bar" class="progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="exercises-list" class="exercises-list">
+                    <!-- Exercises will be populated here -->
+                </div>
+
+                <div class="timer-container">
+                    <h3>Exercise Timer</h3>
+                    <div class="timer-display">
+                        <span id="minutes">00</span>:<span id="seconds">00</span>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="start-timer" class="timer-btn"><i class="fas fa-play"></i></button>
+                        <button id="pause-timer" class="timer-btn"><i class="fas fa-pause"></i></button>
+                        <button id="reset-timer" class="timer-btn"><i class="fas fa-redo"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="calendar-view" class="section hidden">
+            <h2>Workout Calendar</h2>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button id="prev-week" class="calendar-nav-btn"><i class="fas fa-chevron-left"></i></button>
+                    <h3 id="current-week">Week of <span id="week-date">January 1, 2023</span></h3>
+                    <button id="next-week" class="calendar-nav-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="calendar-days">
+                    <!-- Calendar days will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <section id="bmi-calculator" class="section">
+            <h2>BMI Calculator</h2>
+            <div class="bmi-container">
+                <div class="bmi-inputs">
+                    <div class="input-group">
+                        <label for="height">Height (cm)</label>
+                        <input type="number" id="height" placeholder="Enter height">
+                    </div>
+                    <div class="input-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" placeholder="Enter weight">
+                    </div>
+                    <button id="calculate-bmi" class="primary-btn">Calculate BMI</button>
+                </div>
+                <div id="bmi-result" class="bmi-result hidden">
+                    <h3>Your BMI: <span id="bmi-value">0</span></h3>
+                    <p id="bmi-category">Category: </p>
+                    <p id="bmi-recommendation">Recommendation: </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-tab="goal-selection">
+                <i class="fas fa-bullseye"></i>
+                <span>Goals</span>
+            </div>
+            <div class="nav-tab" data-tab="routine-display">
+                <i class="fas fa-dumbbell"></i>
+                <span>Workout</span>
+            </div>
+            <div class="nav-tab" data-tab="calendar-view">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Calendar</span>
+            </div>
+            <div class="nav-tab" data-tab="bmi-calculator">
+                <i class="fas fa-calculator"></i>
+                <span>BMI</span>
+            </div>
+        </div>
+    </footer>
+
+    <div id="reminder-popup" class="popup hidden">
+        <div class="popup-content">
+            <h3 id="reminder-title">Reminder</h3>
+            <p id="reminder-message">Don't forget to stay hydrated!</p>
+            <button id="close-reminder" class="primary-btn">Got it!</button>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="data_part2.js"></script>
+    <script src="data_part3.js"></script>
+    <script src="data_part4.js"></script>
+    <script src="fixed_script.js"></script>
+    <script>
+        // Navigate to a specific section
+        function navigateToSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show the selected section
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                if (tab.dataset.tab === sectionId) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+        }
+
+        // Timer functions
+        function startTimer() {
+            if (timerRunning) return;
+            
+            timerRunning = true;
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            if (!timerRunning) return;
+            
+            timerRunning = false;
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+            timerSeconds = 0;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // BMI calculator
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            
+            // Validate inputs
+            if (isNaN(height) || isNaN(weight) || height <= 0 || weight <= 0) {
+                alert('Please enter valid height and weight values.');
+                return;
+            }
+            
+            // Calculate BMI (weight in kg / height in m^2)
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+            const roundedBMI = Math.round(bmi * 10) / 10;
+            
+            // Display result
+            document.getElementById('bmi-value').textContent = roundedBMI;
+            
+            // Find BMI category
+            let category = null;
+            
+            for (const cat of bmiData.categories) {
+                if (roundedBMI >= cat.range[0] && roundedBMI < cat.range[1]) {
+                    category = cat;
+                    break;
+                }
+            }
+            
+            if (category) {
+                document.getElementById('bmi-category').textContent = `Category: ${category.name}`;
+                document.getElementById('bmi-recommendation').textContent = `Recommendation: ${category.recommendation}`;
+                document.getElementById('bmi-result').style.borderColor = category.color;
+            }
+            
+            // Show result
+            document.getElementById('bmi-result').classList.remove('hidden');
+        }
+
+        // Calendar functions
+        function updateCalendarDate() {
+            const today = new Date();
+            const weekStart = new Date(today);
+            
+            // Adjust for week offset
+            weekStart.setDate(weekStart.getDate() + (currentWeekOffset * 7));
+            
+            // Adjust to start of week (Sunday)
+            const dayOfWeek = weekStart.getDay();
+            weekStart.setDate(weekStart.getDate() - dayOfWeek);
+            
+            // Format date
+            const options = { month: 'long', day: 'numeric', year: 'numeric' };
+            document.getElementById('week-date').textContent = weekStart.toLocaleDateString('en-US', options);
+        }
+
+        function generateCalendarDays() {
+            const calendarDays = document.querySelector('.calendar-days');
+            if (!calendarDays) return;
+            
+            calendarDays.innerHTML = '';
+            
+            const today = new Date();
+            const weekStart = new Date(today);
+            
+            // Adjust for week offset
+            weekStart.setDate(weekStart.getDate() + (currentWeekOffset * 7));
+            
+            // Adjust to start of week (Sunday)
+            const dayOfWeek = weekStart.getDay();
+            weekStart.setDate(weekStart.getDate() - dayOfWeek);
+            
+            // Create days of the week
+            const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            
+            for (let i = 0; i < 7; i++) {
+                const currentDate = new Date(weekStart);
+                currentDate.setDate(currentDate.getDate() + i);
+                
+                const calendarDay = document.createElement('div');
+                calendarDay.className = 'calendar-day';
+                
+                // Check if this is today
+                if (currentDate.toDateString() === today.toDateString()) {
+                    calendarDay.classList.add('today');
+                }
+                
+                // Check if this day has a workout in history
+                const hasWorkout = checkWorkoutForDate(currentDate);
+                if (hasWorkout) {
+                    calendarDay.classList.add('has-workout');
+                }
+                
+                // Add day header
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = daysOfWeek[i] + ' ' + currentDate.getDate();
+                
+                // Add workout indicator if applicable
+                if (hasWorkout) {
+                    const workoutIndicator = document.createElement('div');
+                    workoutIndicator.className = 'workout-indicator';
+                    calendarDay.appendChild(workoutIndicator);
+                }
+                
+                calendarDay.appendChild(dayHeader);
+                calendarDays.appendChild(calendarDay);
+            }
+        }
+
+        function navigateCalendar(direction) {
+            currentWeekOffset += direction;
+            updateCalendarDate();
+            generateCalendarDays();
+        }
+
+        function checkWorkoutForDate(date) {
+            // Check if there's a workout in history for this date
+            const dateString = date.toDateString();
+            return workoutHistory.some(workout => new Date(workout.date).toDateString() === dateString);
+        }
+
+        // Workout history functions
+        function saveWorkoutHistory() {
+            if (!currentWorkout) return;
+            
+            const workout = {
+                date: new Date().toISOString(),
+                goal: selectedGoal,
+                level: selectedLevel,
+                name: currentWorkout.name,
+                completedExercises: completedExercises.length
+            };
+            
+            workoutHistory.push(workout);
+            
+            // Save to localStorage
+            try {
+                localStorage.setItem('workoutHistory', JSON.stringify(workoutHistory));
+            } catch (e) {
+                console.error('Could not save workout history to localStorage', e);
+            }
+        }
+
+        function loadWorkoutHistory() {
+            try {
+                const savedHistory = localStorage.getItem('workoutHistory');
+                if (savedHistory) {
+                    workoutHistory = JSON.parse(savedHistory);
+                }
+            } catch (e) {
+                console.error('Could not load workout history from localStorage', e);
+                workoutHistory = [];
+            }
+        }
+
+        // Reminder system
+        function startReminderSystem() {
+            // Show a reminder every 15 minutes
+            reminderInterval = setInterval(showRandomReminder, 15 * 60 * 1000);
+            
+            // Show first reminder after 1 minute
+            setTimeout(showRandomReminder, 60 * 1000);
+        }
+
+        function showRandomReminder() {
+            const randomIndex = Math.floor(Math.random() * reminderMessages.length);
+            const reminder = reminderMessages[randomIndex];
+            
+            document.getElementById('reminder-title').textContent = reminder.title;
+            document.getElementById('reminder-message').textContent = reminder.message;
+            document.getElementById('reminder-popup').classList.remove('hidden');
+        }
+
+        function closeReminder() {
+            document.getElementById('reminder-popup').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
